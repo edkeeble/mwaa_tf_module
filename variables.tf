@@ -56,9 +56,7 @@ variable "subnet_tagname" {
   default = "shared-vpc-private*"
 }
 
-variable "data_bucket_arn" {}
 
-variable "data_table_arn" {}
 variable "permissions_boundary_arn" {
   default = null
 }

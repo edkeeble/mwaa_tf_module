@@ -31,12 +31,7 @@ data "aws_subnets" "subnet_ids" {
 
 }
 
-module "custom_policy" {
-  source          = "./custom_policies"
-  data_bucket_arn = var.data_bucket_arn
-  data_table_arn  = var.data_table_arn
-  prefix = var.prefix
-}
+
 
 
 
@@ -53,7 +48,7 @@ module "mwaa" {
   prefix                = var.prefix
   vpc_id                = var.vpc_id
   account_id            = data.aws_caller_identity.current.id
-  iam_role_additional_arn_policies = module.custom_policy.custom_policy_arns_map
+  iam_role_additional_arn_policies = var.iam_role_additional_arn_policies
   lambda_s3_bucket_notification_arn = module.lambda_s3_bucket_notification_arn.lambda_function_arn
 }
 
