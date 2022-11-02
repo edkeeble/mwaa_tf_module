@@ -2,9 +2,8 @@ variable "prefix" {
   description = "Stack prefix"
 }
 
-variable "aws_profile" {}
 
-variable "aws_region" {}
+
 variable "create_security_group" {
   default = false
 }

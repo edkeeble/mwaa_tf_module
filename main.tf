@@ -5,14 +5,15 @@ terraform {
     }
   }
 }
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
 
-provider "aws" {
-  profile = var.aws_profile
-  region  = var.aws_region
+locals {
+  account_id = data.aws_caller_identity.current.id
+  aws_region = data.aws_region.current.name
 }
 
 
-data "aws_caller_identity" "current" {}
 
 data "aws_subnets" "subnet_ids" {
   filter {
@@ -25,7 +26,7 @@ data "aws_subnets" "subnet_ids" {
   }
   filter {
     name   = "availability-zone"
-    values = ["${var.aws_region}a", "${var.aws_region}b"]
+    values = ["${local.aws_region}a", "${local.aws_region}b"]
   }
 
 
@@ -47,7 +48,7 @@ module "mwaa" {
   logging_configuration = var.logging_configuration
   prefix                = var.prefix
   vpc_id                = var.vpc_id
-  account_id            = data.aws_caller_identity.current.id
+  account_id            = local.account_id
   iam_role_additional_arn_policies = var.iam_role_additional_arn_policies
   lambda_s3_bucket_notification_arn = module.lambda_s3_bucket_notification_arn.lambda_function_arn
 }
