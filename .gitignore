@@ -1,0 +1,8 @@
+.env
+terraform.tf
+terraform.tfvars
+.idea
+.terraform
+.terraform.lock.hcl
+*.DS_Store
+builds

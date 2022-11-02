@@ -1,0 +1,4 @@
+pydantic==1.8.2
+xmltodict==0.12.0
+airflow_multi_dagrun==2.2.0
+awswrangler
