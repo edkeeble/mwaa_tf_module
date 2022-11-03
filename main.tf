@@ -51,6 +51,7 @@ module "mwaa" {
   account_id            = local.account_id
   iam_role_additional_arn_policies = var.iam_role_additional_arn_policies
   lambda_s3_bucket_notification_arn = module.lambda_s3_bucket_notification_arn.lambda_function_arn
+  dag_s3_path = var.dag_s3_path
 }
 
 
@@ -65,9 +66,8 @@ module "lambda_s3_bucket_notification_arn" {
   publish       = true
   role_permissions_boundary = var.permissions_boundary_arn
   timeout = 300
-  store_on_s3 = true
   create_package         = false
-  local_existing_package = "./platform/lambda_event/lambda_src.py.zip"
+  local_existing_package = "${path.module}/platform/lambda_event/lambda_src.py.zip"
   s3_bucket   = module.mwaa.mwaa_s3_bucket_name
   policy = module.mwaa.lambda_event_s3_policy_arn
   attach_policy = true

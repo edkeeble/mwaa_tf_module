@@ -2,7 +2,6 @@ variable "bucket_name" {}
 variable "dag_s3_path" {
   description = "(Required) The relative path to the DAG folder on your Amazon S3 storage bucket. For example, dags."
   type        = string
-  default     = "dags"
 }
 
 variable "plugins_s3_path" {

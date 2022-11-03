@@ -59,6 +59,9 @@ variable "subnet_tagname" {
 variable "permissions_boundary_arn" {
   default = null
 }
-variable "requirements_path" {
-  default = "FOOBAR"
+
+variable "dag_s3_path" {
+  description = "(Required) The relative path to the DAG folder on your Amazon S3 storage bucket. For example, dags."
+  type        = string
+  default     = "dags"
 }

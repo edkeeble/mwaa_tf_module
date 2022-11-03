@@ -66,3 +66,8 @@ variable "vpc_id" {}
 
 variable "account_id" {}
 variable "lambda_s3_bucket_notification_arn" {}
+variable "dag_s3_path" {
+  description = "(Required) The relative path to the DAG folder on your Amazon S3 storage bucket. For example, dags."
+  type        = string
+
+}
