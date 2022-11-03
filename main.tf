@@ -63,11 +63,11 @@ module "lambda_s3_bucket_notification_arn" {
   handler       = "lambda_src.handler"
   runtime       = "python3.9"
   publish       = true
-
-  source_path = "./platform/lambda_event"
   role_permissions_boundary = var.permissions_boundary_arn
   timeout = 300
   store_on_s3 = true
+  create_package         = false
+  local_existing_package = "./platform/lambda_event/lambda_src.py.zip"
   s3_bucket   = module.mwaa.mwaa_s3_bucket_name
   policy = module.mwaa.lambda_event_s3_policy_arn
   attach_policy = true
