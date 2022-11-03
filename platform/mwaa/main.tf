@@ -27,6 +27,7 @@ module "iam_role" {
   prefix = var.prefix
   mwaa_env_name = "${var.prefix}-mwaa"
   iam_role_additional_arn_policies = var.iam_role_additional_arn_policies
+  iam_role_permissions_boundary = var.iam_role_permissions_boundary
 }
 
 

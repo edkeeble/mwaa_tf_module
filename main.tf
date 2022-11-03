@@ -52,6 +52,7 @@ module "mwaa" {
   iam_role_additional_arn_policies = var.iam_role_additional_arn_policies
   lambda_s3_bucket_notification_arn = module.lambda_s3_bucket_notification_arn.lambda_function_arn
   dag_s3_path = var.dag_s3_path
+  iam_role_permissions_boundary = var.permissions_boundary_arn
 }
 
 

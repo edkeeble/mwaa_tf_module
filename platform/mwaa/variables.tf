@@ -71,3 +71,4 @@ variable "dag_s3_path" {
   type        = string
 
 }
+variable "iam_role_permissions_boundary" {}

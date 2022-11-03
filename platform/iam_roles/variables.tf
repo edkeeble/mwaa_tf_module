@@ -12,9 +12,7 @@ variable "iam_role_path" {
   default     = "/"
 }
 
-variable "iam_role_permissions_boundary" {
-   default     = null
-}
+variable "iam_role_permissions_boundary" {}
 
 variable "iam_role_additional_arn_policies" {
   description = "Additional policies to be added to the IAM role"
