@@ -53,6 +53,7 @@ module "mwaa" {
   lambda_s3_bucket_notification_arn = module.lambda_s3_bucket_notification_arn.lambda_function_arn
   dag_s3_path = var.dag_s3_path
   iam_role_permissions_boundary = var.permissions_boundary_arn
+  local_requirement_file_path = var.local_requirement_file_path == null ? "${path.module}/application/requirements/requirements.txt" : var.local_requirement_file_path
 }
 
 

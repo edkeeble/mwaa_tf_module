@@ -19,3 +19,5 @@ variable "requirements_filename" {
 }
 
 variable "lambda_s3_bucket_notification_arn" {}
+# Upload requirements
+variable "local_requirement_file_path" {}

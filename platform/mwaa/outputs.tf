@@ -27,3 +27,7 @@ output "mwaa_subnet_ids" {
 output "mwaa_security_group_ids" {
   value = module.security_groups.security_groups_ids
 }
+
+output "mwaa_role_arn" {
+  value = module.iam_role.execution_role_arn
+}

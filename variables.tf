@@ -56,12 +56,16 @@ variable "subnet_tagname" {
 }
 
 
-variable "permissions_boundary_arn" {
-  default = null
-}
+variable "permissions_boundary_arn" {}
 
 variable "dag_s3_path" {
   description = "(Required) The relative path to the DAG folder on your Amazon S3 storage bucket. For example, dags."
   type        = string
   default     = "dags"
+}
+
+variable "local_requirement_file_path" {
+  description = "Path for requirements.txt that will be installed by default"
+  type = string
+  default = null
 }

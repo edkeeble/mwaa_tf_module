@@ -17,3 +17,6 @@ output "subnets" {
 output "airflow_url" {
   value = module.mwaa.airflow_url
 }
+output "mwaa_role_arn" {
+  value = module.mwaa.mwaa_role_arn
+}

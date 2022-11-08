@@ -59,11 +59,11 @@ resource "aws_s3_object" "plugs" {
   etag     = filemd5("${local.application_path}/plugins/${each.value}")
 }
 
-# Upload requirements
+
 resource "aws_s3_object" "reqs" {
   bucket   = aws_s3_bucket.this.id
   key      = "requirements/${var.requirements_filename}"
-  source   = "${local.application_path}/requirements/${var.requirements_filename}"
+  source   = var.local_requirement_file_path
   etag     = filemd5("${local.application_path}/requirements/${var.requirements_filename}")
 }
 
