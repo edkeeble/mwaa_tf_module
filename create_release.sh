@@ -20,7 +20,7 @@ function create_zip_file() {
   DESTINATION_DIR=${PWD}/dist
   rm -rf ${DESTINATION_DIR}
   mkdir -p ${BUILD_DIR} ${DESTINATION_DIR}
-  cp -r code_pipeline iam kms ${BUILD_DIR}
+  cp -r application platform ${BUILD_DIR}
   cp *tf ${BUILD_DIR}
   cd ${BUILD_DIR}
   zip -r9 ${RELEASE_NAME}.zip .
