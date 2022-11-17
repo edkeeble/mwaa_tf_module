@@ -38,6 +38,10 @@ data "aws_iam_policy_document" "mwaa_assume" {
       type        = "Service"
       identifiers = ["s3.amazonaws.com"]
     }
+        principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
   }
 }
 #tfsec:ignore:AWS099
