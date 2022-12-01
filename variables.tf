@@ -69,3 +69,10 @@ variable "local_requirement_file_path" {
   type = string
   default = null
 }
+
+variable "local_dag_folder" {
+  description = "Path to dag folder"
+  type = string
+  default = null
+}
+

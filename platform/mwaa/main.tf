@@ -15,11 +15,11 @@ locals {
 
 module "s3_bucket" {
   source = "../s3_bucket"
-  bucket_name = format("%s-%s", "${var.prefix}-impact-mwaa", var.account_id)
+  bucket_name = format("%s-%s", "${var.prefix}-mwaa", var.account_id)
   dag_s3_path = var.dag_s3_path
-
   lambda_s3_bucket_notification_arn = var.lambda_s3_bucket_notification_arn
   local_requirement_file_path       = var.local_requirement_file_path
+  local_dag_folder = var.local_dag_folder
 }
 
 

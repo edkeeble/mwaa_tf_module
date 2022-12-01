@@ -74,3 +74,5 @@ variable "dag_s3_path" {
 variable "iam_role_permissions_boundary" {}
 
 variable "local_requirement_file_path" {}
+
+variable "local_dag_folder" {}

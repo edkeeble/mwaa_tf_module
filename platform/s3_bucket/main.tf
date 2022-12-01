@@ -42,12 +42,12 @@ resource "aws_s3_bucket_public_access_block" "this" {
 }
 
 # Upload DAGS
-resource "aws_s3_object" "object1" {
-  for_each = fileset("${local.application_path}/dags/", "*")
+resource "aws_s3_object" "dag" {
+  for_each = fileset(var.local_dag_folder, "*")
   bucket   = aws_s3_bucket.this.id
   key      = "${var.dag_s3_path}/${each.value}"
-  source   = "${local.application_path}/dags/${each.value}"
-  etag     = filemd5("${local.application_path}/dags/${each.value}")
+  source   = "${var.local_dag_folder}${each.value}"
+  etag     = filemd5("${var.local_dag_folder}${each.value}")
 }
 
 # Upload plugins
