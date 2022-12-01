@@ -42,13 +42,29 @@ resource "aws_s3_bucket_public_access_block" "this" {
 }
 
 # Upload DAGS
-resource "aws_s3_object" "dag" {
-  for_each = fileset(var.local_dag_folder, "*")
-  bucket   = aws_s3_bucket.this.id
-  key      = "${var.dag_s3_path}/${each.value}"
-  source   = "${var.local_dag_folder}${each.value}"
-  etag     = filemd5("${var.local_dag_folder}${each.value}")
+#resource "aws_s3_object" "dag" {
+#  for_each = fileset(var.local_dag_folder, "*")
+#  bucket   = aws_s3_bucket.this.id
+#  key      = "${var.dag_s3_path}/${each.value}"
+#  source   = "${var.local_dag_folder}${each.value}"
+#  etag     = filemd5("${var.local_dag_folder}${each.value}")
+#}
+
+data "archive_file" "monitor_change_in_dag_folder" {
+  type        = "zip"
+  source_dir = var.local_dag_folder
+  output_path = "/tmp/dag.zip"
 }
+
+resource "null_resource" "upload_dag_folder" {
+    triggers = {
+    src_hash = data.archive_file.monitor_change_in_dag_folder.output_sha
+  }
+  provisioner "local-exec" {
+    command = "aws s3 sync --size-only ${var.local_dag_folder} s3://${aws_s3_bucket.this.id}/${var.dag_s3_path}"
+  }
+}
+
 
 # Upload plugins
 resource "aws_s3_object" "plugs" {
