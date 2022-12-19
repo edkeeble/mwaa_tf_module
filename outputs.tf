@@ -20,3 +20,7 @@ output "airflow_url" {
 output "mwaa_role_arn" {
   value = module.mwaa.mwaa_role_arn
 }
+
+output "mwaa_environment_name" {
+  value = module.mwaa.mwaa_environment_name
+}

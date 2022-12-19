@@ -76,3 +76,8 @@ variable "local_dag_folder" {
   default = null
 }
 
+
+variable "mwaa_variables_json_file_path" {
+  type = string
+  default = null
+}
