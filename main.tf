@@ -58,14 +58,13 @@ module "mwaa" {
 
 
 resource "null_resource" "add_mwaa_vars" {
-  count = var.mwaa_variables_json_file_path == null ? 0: 1
   depends_on = [module.mwaa]
   triggers = {
-   mwaa_variables_json_file =md5(file(var.mwaa_variables_json_file_path))
+   mwaa_variables_json_file_id = var.mwaa_variables_json_file_id_path.file_id
  }
   provisioner "local-exec" {
    command = <<EOF
-    python ${path.module}/set_mwaa_variables.py --mwaa_env_name ${module.mwaa.mwaa_environment_name} --file_path ${var.mwaa_variables_json_file_path}
+    python ${path.module}/set_mwaa_variables.py --mwaa_env_name ${module.mwaa.mwaa_environment_name} --file_path ${var.mwaa_variables_json_file_id_path.file_path}
        EOF
  }
 }

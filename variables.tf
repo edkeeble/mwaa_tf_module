@@ -76,8 +76,11 @@ variable "local_dag_folder" {
   default = null
 }
 
+variable "mwaa_variables_json_file_id_path" {
+  type = object({ file_path = string, file_id = string })
 
-variable "mwaa_variables_json_file_path" {
-  type = string
-  default = null
+  default = {
+    file_path = null
+    file_id = null
+  }
 }

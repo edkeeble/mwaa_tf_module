@@ -46,4 +46,5 @@ if __name__ == "__main__":
     parser.add_argument("--file_path", dest="file_path", help="path to file")
     parser.add_argument("--aws_region", dest="aws_region", help="AWS region", default="us-west-2")
     args = parser.parse_args()
-    set_mwaa_env_var(mwaa_env_name=args.mwaa_env_name, mwaa_vars_file_path=args.file_path, aws_region=args.aws_region)
+    if args.file_path:
+        set_mwaa_env_var(mwaa_env_name=args.mwaa_env_name, mwaa_vars_file_path=args.file_path, aws_region=args.aws_region)
