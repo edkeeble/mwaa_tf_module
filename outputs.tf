@@ -24,3 +24,11 @@ output "mwaa_role_arn" {
 output "mwaa_environment_name" {
   value = module.mwaa.mwaa_environment_name
 }
+
+output "mwaa_security_groups" {
+  value = module.mwaa.mwaa_security_group_ids
+}
+
+output "mwaa_module" {
+  value = module.mwaa
+}
