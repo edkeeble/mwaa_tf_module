@@ -69,6 +69,18 @@ resource "null_resource" "add_mwaa_vars" {
  }
 }
 
+module "ecs" {
+  source = "./platform/ecs"
+  count = length(var.containers) == 0 ? 0: 1
+  aws_region              = local.aws_region
+  containers              = var.containers
+  mwaa_execution_role_arn = module.mwaa.mwaa_role_arn
+  mwaa_task_role_arn      = module.mwaa.mwaa_role_arn
+  prefix                  = var.prefix
+  stage                   = var.stage
+}
+
+
 module "lambda_s3_bucket_notification_arn" {
   source = "terraform-aws-modules/lambda/aws"
   function_name = "${var.prefix}-mwaa-lambda"

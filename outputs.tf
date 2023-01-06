@@ -32,3 +32,13 @@ output "mwaa_security_groups" {
 output "mwaa_module" {
   value = module.mwaa
 }
+
+output "ecs_tasks" {
+  value = length(module.ecs) == 0 ? {}: module.ecs[0]
+}
+
+variable "docker_image_urls" {
+  type = list(string)
+  description = "List of docker images URLs"
+  default = []
+}

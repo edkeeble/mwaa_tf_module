@@ -84,3 +84,15 @@ variable "mwaa_variables_json_file_id_path" {
     file_id = null
   }
 }
+
+variable "containers" {
+  type = list(object({
+    docker_image_url  = string
+    container_name = string
+  }))
+  default = []
+}
+variable "stage" {
+
+  description = "Stage maturity (dev, sit, uat, prod...)"
+}
