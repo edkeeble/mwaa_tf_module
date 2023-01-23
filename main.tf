@@ -55,6 +55,36 @@ module "mwaa" {
   local_requirement_file_path = var.local_requirement_file_path == null ? "${path.module}/application/requirements/requirements.txt" : var.local_requirement_file_path
 }
 
+locals {
+  lambda_conts = flatten([
+      for lambda_container in var.lambda_containers : {
+      handler_file_path  = lambda_container.handler_file_path
+      docker_file_path = lambda_container.docker_file_path
+      lambda_container_folder_path  = lambda_container.lambda_container_folder_path
+      lambda_name = lambda_container.lambda_name
+      }
+  ])
+
+  lambda_containers_map = {
+    for s in local.lambda_conts: s.lambda_name => s
+  }
+}
+
+module "lambda_containers" {
+  source = "./platform/lambda_containers"
+  for_each = local.lambda_containers_map
+  account_id = local.account_id
+  docker_file_path = local.lambda_containers_map[each.key].docker_file_path
+  handler_file_path = local.lambda_containers_map[each.key].handler_file_path
+  lambda_container_folder_path = local.lambda_containers_map[each.key].lambda_container_folder_path
+  lambda_name = local.lambda_containers_map[each.key].lambda_name
+  lambda_role_arn = module.mwaa.mwaa_role_arn
+  prefix = var.prefix
+  region = local.aws_region
+  timeout = var.lambda_container_timeout
+  ephemeral_storage = var.ephemeral_storage
+  memory_size = var.memory_size
+}
 
 
 resource "null_resource" "add_mwaa_vars" {

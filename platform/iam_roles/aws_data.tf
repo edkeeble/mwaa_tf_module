@@ -161,6 +161,15 @@ data "aws_iam_policy_document" "mwaa" {
     ]
     resources = ["arn:${data.aws_partition.current.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/*"]
   }
+  statement {
+    effect = "Allow"
+    actions = [
+    "lambda:InvokeFunction"
+    ]
+    resources = [
+      "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:${var.prefix}*"
+    ]
+  }
 
   statement {
     effect    = "Allow"
@@ -188,6 +197,8 @@ data "aws_iam_policy_document" "lambda_s3_event_policy" {
     ]
     resources = ["*"]
   }
+
+
 
   statement {
     effect = "Allow"

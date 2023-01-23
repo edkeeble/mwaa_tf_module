@@ -96,3 +96,28 @@ variable "stage" {
 
   description = "Stage maturity (dev, sit, uat, prod...)"
 }
+
+variable "lambda_container_timeout" {
+  type = number
+  default = 300
+}
+
+variable "lambda_containers" {
+  type = list(object({
+    handler_file_path  = string
+    docker_file_path = string
+    lambda_container_folder_path  = string
+    lambda_name = string
+  }))
+  default = []
+}
+variable "memory_size" {
+type = number
+  default = 10000
+
+}
+variable "ephemeral_storage" {
+  type = number
+  default = 1000
+}
+
