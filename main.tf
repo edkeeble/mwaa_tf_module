@@ -94,7 +94,7 @@ resource "null_resource" "add_mwaa_vars" {
  }
   provisioner "local-exec" {
    command = <<EOF
-    python ${path.module}/set_mwaa_variables.py --mwaa_env_name ${module.mwaa.mwaa_environment_name} --file_path ${var.mwaa_variables_json_file_id_path.file_path}
+    python ${path.module}/set_mwaa_variables.py --mwaa_env_name ${module.mwaa.mwaa_environment_name} --file_path ${var.mwaa_variables_json_file_id_path.file_path} --aws_region ${local.aws_region}
        EOF
  }
 }
