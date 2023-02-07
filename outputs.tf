@@ -34,11 +34,23 @@ output "mwaa_module" {
 }
 
 output "ecs_tasks" {
-  value = length(module.ecs) == 0 ? {}: module.ecs[0]
+  value = length(module.ecs_containers) == 0 ? {}: module.ecs_containers
 }
 
 variable "docker_image_urls" {
   type = list(string)
   description = "List of docker images URLs"
   default = []
+}
+
+output "cluster_name" {
+  value = aws_ecs_cluster.mwaa_cluster.name
+}
+
+output "log_group_name" {
+  value = aws_cloudwatch_log_group.ecs_logs.name
+}
+
+output "stream_log_name" {
+  value = aws_cloudwatch_log_stream.veda_build_stac_stream.name
 }

@@ -31,7 +31,28 @@ data "aws_subnets" "subnet_ids" {
 
 
 }
+# ECS task section (Cluster + LOGS) start
 
+resource "aws_cloudwatch_log_group" "ecs_logs" {
+  name = "${var.prefix}-mwaa-ecs-tasks"
+
+  tags = {
+    Environment = var.stage
+    Application = var.prefix
+  }
+}
+
+
+resource "aws_cloudwatch_log_stream" "veda_build_stac_stream" {
+  name           = "ecs"
+  log_group_name = aws_cloudwatch_log_group.ecs_logs.name
+}
+
+resource "aws_ecs_cluster" "mwaa_cluster" {
+
+  name = "${var.prefix}-cluster"
+}
+# ECS task section (Cluster + LOGS)  end
 
 module "mwaa" {
   source                = "./platform/mwaa"
@@ -56,34 +77,31 @@ module "mwaa" {
 }
 
 locals {
-  lambda_conts = flatten([
-      for lambda_container in var.lambda_containers : {
-      handler_file_path  = lambda_container.handler_file_path
-      docker_file_path = lambda_container.docker_file_path
-      lambda_container_folder_path  = lambda_container.lambda_container_folder_path
-      lambda_name = lambda_container.lambda_name
+  ecrs_conts = flatten([
+      for ecs_container in var.ecs_containers : {
+      handler_file_path  = ecs_container.handler_file_path
+      docker_file_path = ecs_container.docker_file_path
+      ecs_container_folder_path  = ecs_container.ecs_container_folder_path
+      ecr_repo_name = ecs_container.ecr_repo_name
       }
   ])
 
-  lambda_containers_map = {
-    for s in local.lambda_conts: s.lambda_name => s
+  ecs_containers_map = {
+    for s in local.ecrs_conts: s.ecr_repo_name => s
   }
 }
 
-module "lambda_containers" {
-  source = "./platform/lambda_containers"
-  for_each = local.lambda_containers_map
+module "ecs_containers" {
+  source = "./platform/ecrs"
+  for_each = local.ecs_containers_map
   account_id = local.account_id
-  docker_file_path = local.lambda_containers_map[each.key].docker_file_path
-  handler_file_path = local.lambda_containers_map[each.key].handler_file_path
-  lambda_container_folder_path = local.lambda_containers_map[each.key].lambda_container_folder_path
-  lambda_name = local.lambda_containers_map[each.key].lambda_name
-  lambda_role_arn = module.mwaa.mwaa_role_arn
+  docker_file_path = local.ecs_containers_map[each.key].docker_file_path
+  handler_file_path = local.ecs_containers_map[each.key].handler_file_path
+  ecs_container_folder_path = local.ecs_containers_map[each.key].ecs_container_folder_path
+  ecr_repo_name = local.ecs_containers_map[each.key].ecr_repo_name
   prefix = var.prefix
-  region = local.aws_region
-  timeout = var.lambda_container_timeout
-  ephemeral_storage = var.ephemeral_storage
-  memory_size = var.memory_size
+  aws_region = local.aws_region
+  stage = var.stage
 }
 
 
@@ -97,17 +115,6 @@ resource "null_resource" "add_mwaa_vars" {
     python ${path.module}/set_mwaa_variables.py --mwaa_env_name ${module.mwaa.mwaa_environment_name} --file_path ${var.mwaa_variables_json_file_id_path.file_path} --aws_region ${local.aws_region}
        EOF
  }
-}
-
-module "ecs" {
-  source = "./platform/ecs"
-  count = length(var.containers) == 0 ? 0: 1
-  aws_region              = local.aws_region
-  containers              = var.containers
-  mwaa_execution_role_arn = module.mwaa.mwaa_role_arn
-  mwaa_task_role_arn      = module.mwaa.mwaa_role_arn
-  prefix                  = var.prefix
-  stage                   = var.stage
 }
 
 

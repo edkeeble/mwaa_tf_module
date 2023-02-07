@@ -17,7 +17,7 @@ variable "airflow_configuration_options" {
 
 
 variable "airflow_version" {
-  default = "2.2.2"
+  default = "2.4.3"
 }
 variable "environment_class" {
   default = "mw1.medium"
@@ -85,39 +85,22 @@ variable "mwaa_variables_json_file_id_path" {
   }
 }
 
-variable "containers" {
-  type = list(object({
-    docker_image_url  = string
-    container_name = string
-  }))
-  default = []
-}
+
 variable "stage" {
 
   description = "Stage maturity (dev, sit, uat, prod...)"
 }
 
-variable "lambda_container_timeout" {
-  type = number
-  default = 300
-}
 
-variable "lambda_containers" {
+
+variable "ecs_containers" {
   type = list(object({
     handler_file_path  = string
     docker_file_path = string
-    lambda_container_folder_path  = string
-    lambda_name = string
+    ecs_container_folder_path  = string
+    ecr_repo_name = string
   }))
   default = []
 }
-variable "memory_size" {
-type = number
-  default = 10000
 
-}
-variable "ephemeral_storage" {
-  type = number
-  default = 1000
-}
 
