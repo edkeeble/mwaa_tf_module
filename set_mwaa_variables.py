@@ -13,6 +13,13 @@ def get_headers(mwaa_client, mwaa_env_name):
     }
     return {"headers": headers, "url": url}
 
+def get_va_without_double_quoites(val):
+    if '{' in val:
+        return val
+    elif isinstance(val, str):
+        return val.replace('"', "")
+    return val
+
 def set_mwaa_env_var(mwaa_env_name,mwaa_vars_file_path, aws_region):
     boto3_session = boto3.session.Session(region_name=aws_region)
     mwaa_client = boto3_session.client('mwaa',)
@@ -22,7 +29,7 @@ def set_mwaa_env_var(mwaa_env_name,mwaa_vars_file_path, aws_region):
     headers_url = get_headers(mwaa_client=mwaa_client, mwaa_env_name=mwaa_env_name)
     for key in json_dictionary:
         print(key, " ", json_dictionary[key])
-        val = f"{key} '{json.dumps(json_dictionary[key])}'"
+        val = f"{key} '{get_va_without_double_quoites(json.dumps(json_dictionary[key]))}'"
         raw_data = f"variables set {val}"
         mwaa_response = requests.post(
             headers_url['url'],
