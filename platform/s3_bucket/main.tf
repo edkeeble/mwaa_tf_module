@@ -61,7 +61,7 @@ resource "null_resource" "upload_dag_folder" {
     src_hash = data.archive_file.monitor_change_in_dag_folder.output_sha
   }
   provisioner "local-exec" {
-    command = "aws s3 sync --size-only ${var.local_dag_folder} s3://${aws_s3_bucket.this.id}/${var.dag_s3_path}"
+    command = "aws s3 sync --exclude 'requirements.txt' --exclude '*' --include '*.py' --include '*.txt' --size-only ${var.local_dag_folder} s3://${aws_s3_bucket.this.id}/${var.dag_s3_path}"
   }
 }
 
