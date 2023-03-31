@@ -31,3 +31,7 @@ output "mwaa_security_group_ids" {
 output "mwaa_role_arn" {
   value = module.iam_role.execution_role_arn
 }
+
+output "mwaa_arn" {
+  value = aws_mwaa_environment.mwaa.arn
+}
