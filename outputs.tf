@@ -29,6 +29,10 @@ output "mwaa_security_groups" {
   value = module.mwaa.mwaa_security_group_ids
 }
 
+output "mwaa_arn" {
+  value = module.mwaa.mwaa_arn
+}
+
 output "mwaa_module" {
   value = module.mwaa
 }
