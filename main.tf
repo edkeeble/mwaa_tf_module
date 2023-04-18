@@ -120,6 +120,7 @@ resource "null_resource" "add_mwaa_vars" {
 
 module "lambda_s3_bucket_notification_arn" {
   source = "terraform-aws-modules/lambda/aws"
+  version = "4.12.1"
   function_name = "${var.prefix}-mwaa-lambda"
   description   = "lambda to update MWAA"
   handler       = "lambda_src.handler"
