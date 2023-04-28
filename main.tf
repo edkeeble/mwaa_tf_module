@@ -50,6 +50,7 @@ resource "aws_cloudwatch_log_stream" "veda_build_stac_stream" {
 
 resource "aws_ecs_cluster" "mwaa_cluster" {
   name = "${var.prefix}-cluster"
+
   setting {
     name  = "containerInsights"
     value = "enabled"
