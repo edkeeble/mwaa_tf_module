@@ -66,14 +66,14 @@ variable "dag_s3_path" {
 
 variable "local_requirement_file_path" {
   description = "Path for requirements.txt that will be installed by default"
-  type = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "local_dag_folder" {
   description = "Path to dag folder"
-  type = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "mwaa_variables_json_file_id_path" {
@@ -81,7 +81,7 @@ variable "mwaa_variables_json_file_id_path" {
 
   default = {
     file_path = null
-    file_id = null
+    file_id   = null
   }
 }
 
@@ -95,10 +95,10 @@ variable "stage" {
 
 variable "ecs_containers" {
   type = list(object({
-    handler_file_path  = string
-    docker_file_path = string
-    ecs_container_folder_path  = string
-    ecr_repo_name = string
+    handler_file_path         = string
+    docker_file_path          = string
+    ecs_container_folder_path = string
+    ecr_repo_name             = string
   }))
   default = []
 }

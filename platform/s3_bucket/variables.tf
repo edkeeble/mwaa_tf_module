@@ -12,7 +12,7 @@ variable "plugins_s3_path" {
 variable "requirements_s3_path" {
   description = "(Optional) The relative path to the requirements.txt file on your Amazon S3 storage bucket. For example, requirements.txt. If a relative path is provided in the request, then requirements_s3_object_version is required."
   type        = string
-  default = "requirements"
+  default     = "requirements"
 }
 variable "requirements_filename" {
   default = "requirements.txt"

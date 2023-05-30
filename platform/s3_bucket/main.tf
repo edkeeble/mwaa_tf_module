@@ -4,7 +4,7 @@ locals {
 
 resource "aws_s3_bucket" "this" {
   bucket = var.bucket_name
-  tags   = {
+  tags = {
     Name = "Bucket used for WMAA"
   }
   lifecycle {
@@ -52,12 +52,12 @@ resource "aws_s3_bucket_public_access_block" "this" {
 
 data "archive_file" "monitor_change_in_dag_folder" {
   type        = "zip"
-  source_dir = var.local_dag_folder
+  source_dir  = var.local_dag_folder
   output_path = "/tmp/dag.zip"
 }
 
 resource "null_resource" "upload_dag_folder" {
-    triggers = {
+  triggers = {
     src_hash = data.archive_file.monitor_change_in_dag_folder.output_sha
   }
   provisioner "local-exec" {
@@ -77,10 +77,10 @@ resource "aws_s3_object" "plugs" {
 
 
 resource "aws_s3_object" "reqs" {
-  bucket   = aws_s3_bucket.this.id
-  key      = "requirements/${var.requirements_filename}"
-  source   = var.local_requirement_file_path
-  etag     = filemd5(var.local_requirement_file_path)
+  bucket = aws_s3_bucket.this.id
+  key    = "requirements/${var.requirements_filename}"
+  source = var.local_requirement_file_path
+  etag   = filemd5(var.local_requirement_file_path)
 }
 
 resource "aws_lambda_permission" "allow_bucket" {
@@ -97,8 +97,8 @@ resource "aws_s3_bucket_notification" "mwaa_bucket_notification" {
   bucket = aws_s3_bucket.this.id
   lambda_function {
     lambda_function_arn = var.lambda_s3_bucket_notification_arn
-    events = ["s3:ObjectCreated:Put"]
-    filter_prefix = aws_s3_object.reqs.key
+    events              = ["s3:ObjectCreated:Put"]
+    filter_prefix       = aws_s3_object.reqs.key
   }
   depends_on = [aws_lambda_permission.allow_bucket]
 }
