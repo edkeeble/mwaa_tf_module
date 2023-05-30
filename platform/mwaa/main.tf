@@ -5,7 +5,7 @@
 
 locals {
   default_airflow_configuration_options = {
-    "logging.logging_level" = "INFO"
+    "logging.logging_level"      = "INFO"
     "webserver.dag_default_view" = "graph"
   }
   airflow_configuration_options = merge(local.default_airflow_configuration_options, var.airflow_configuration_options)
@@ -14,22 +14,22 @@ locals {
 
 
 module "s3_bucket" {
-  source = "../s3_bucket"
-  bucket_name = format("%s-%s", "${var.prefix}-mwaa", var.account_id)
-  dag_s3_path = var.dag_s3_path
+  source                            = "../s3_bucket"
+  bucket_name                       = format("%s-%s", "${var.prefix}-mwaa", var.account_id)
+  dag_s3_path                       = var.dag_s3_path
   lambda_s3_bucket_notification_arn = var.lambda_s3_bucket_notification_arn
   local_requirement_file_path       = var.local_requirement_file_path
-  local_dag_folder = var.local_dag_folder
+  local_dag_folder                  = var.local_dag_folder
 }
 
 
 module "iam_role" {
-  source = "../iam_roles"
-  source_bucket_arn = module.s3_bucket.mwaa_s3_arn
-  prefix = var.prefix
-  mwaa_env_name = "${var.prefix}-mwaa"
+  source                           = "../iam_roles"
+  source_bucket_arn                = module.s3_bucket.mwaa_s3_arn
+  prefix                           = var.prefix
+  mwaa_env_name                    = "${var.prefix}-mwaa"
   iam_role_additional_arn_policies = var.iam_role_additional_arn_policies
-  iam_role_permissions_boundary = var.iam_role_permissions_boundary
+  iam_role_permissions_boundary    = var.iam_role_permissions_boundary
 }
 
 
@@ -50,13 +50,13 @@ resource "aws_mwaa_environment" "mwaa" {
   max_workers       = var.max_workers
   kms_key           = var.kms_key
 
-  dag_s3_path                    = var.dag_s3_path
-  plugins_s3_object_version      = var.plugins_s3_object_version
-  plugins_s3_path                = module.s3_bucket.plugins_s3_path
-  requirements_s3_path           = module.s3_bucket.requirements_s3_path
-  schedulers                     = var.schedulers
-  execution_role_arn             = module.iam_role.execution_role_arn
-  airflow_configuration_options  = local.airflow_configuration_options
+  dag_s3_path                   = var.dag_s3_path
+  plugins_s3_object_version     = var.plugins_s3_object_version
+  plugins_s3_path               = module.s3_bucket.plugins_s3_path
+  requirements_s3_path          = module.s3_bucket.requirements_s3_path
+  schedulers                    = var.schedulers
+  execution_role_arn            = module.iam_role.execution_role_arn
+  airflow_configuration_options = local.airflow_configuration_options
 
   source_bucket_arn               = module.s3_bucket.mwaa_s3_arn
   webserver_access_mode           = var.webserver_access_mode

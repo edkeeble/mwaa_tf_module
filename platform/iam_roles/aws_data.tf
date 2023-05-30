@@ -38,7 +38,7 @@ data "aws_iam_policy_document" "mwaa_assume" {
       type        = "Service"
       identifiers = ["s3.amazonaws.com"]
     }
-        principals {
+    principals {
       type        = "Service"
       identifiers = ["ecs-tasks.amazonaws.com"]
     }
@@ -164,7 +164,7 @@ data "aws_iam_policy_document" "mwaa" {
   statement {
     effect = "Allow"
     actions = [
-    "lambda:InvokeFunction"
+      "lambda:InvokeFunction"
     ]
     resources = [
       "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:${var.prefix}*"
@@ -193,7 +193,7 @@ data "aws_iam_policy_document" "lambda_s3_event_policy" {
   statement {
     effect = "Allow"
     actions = [
-    "ec2:DescribeSubnets"
+      "ec2:DescribeSubnets"
     ]
     resources = ["*"]
   }
@@ -203,7 +203,7 @@ data "aws_iam_policy_document" "lambda_s3_event_policy" {
   statement {
     effect = "Allow"
     actions = [
-    "s3:GetEncryptionConfiguration"
+      "s3:GetEncryptionConfiguration"
     ]
     resources = [
       var.source_bucket_arn,

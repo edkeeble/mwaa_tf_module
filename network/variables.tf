@@ -8,7 +8,7 @@ variable "tags" {
   }
 }
 variable "private_subnet_cidrs" {
-    type = list(string)
+  type = list(string)
 }
 variable "vpc_cidr" {}
 variable "prefix" {}

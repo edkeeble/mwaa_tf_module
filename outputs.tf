@@ -38,13 +38,13 @@ output "mwaa_module" {
 }
 
 output "ecs_tasks" {
-  value = length(module.ecs_containers) == 0 ? {}: module.ecs_containers
+  value = length(module.ecs_containers) == 0 ? {} : module.ecs_containers
 }
 
 variable "docker_image_urls" {
-  type = list(string)
+  type        = list(string)
   description = "List of docker images URLs"
-  default = []
+  default     = []
 }
 
 output "cluster_name" {
