@@ -13,9 +13,12 @@ resource "aws_security_group" "mwaa" {
     create_before_destroy = true
   }
 
-  tags = {
-    Name = "${var.prefix}-mwaa-sg"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Notes = "${var.prefix}-mwaa-sg"
+    }
+  )
 }
 
 resource "aws_security_group_rule" "mwaa_sg_inbound" {

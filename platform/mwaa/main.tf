@@ -20,6 +20,7 @@ module "s3_bucket" {
   lambda_s3_bucket_notification_arn = var.lambda_s3_bucket_notification_arn
   local_requirement_file_path       = var.local_requirement_file_path
   local_dag_folder                  = var.local_dag_folder
+  tags = var.tags
 }
 
 
@@ -30,6 +31,7 @@ module "iam_role" {
   mwaa_env_name                    = "${var.prefix}-mwaa"
   iam_role_additional_arn_policies = var.iam_role_additional_arn_policies
   iam_role_permissions_boundary    = var.iam_role_permissions_boundary
+  tags = var.tags
 }
 
 
@@ -38,6 +40,7 @@ module "security_groups" {
   source = "../security_groups"
   prefix = var.prefix
   vpc_id = var.vpc_id
+  tags = var.tags
 }
 
 
@@ -62,9 +65,7 @@ resource "aws_mwaa_environment" "mwaa" {
   webserver_access_mode           = var.webserver_access_mode
   weekly_maintenance_window_start = var.weekly_maintenance_window_start
 
-  tags = {
-    Name = "MWAA Impact Data pipeline"
-  }
+  tags = var.tags
 
   network_configuration {
     security_group_ids = module.security_groups.security_groups_ids

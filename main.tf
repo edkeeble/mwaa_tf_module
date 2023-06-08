@@ -11,6 +11,9 @@ data "aws_region" "current" {}
 locals {
   account_id = data.aws_caller_identity.current.id
   aws_region = data.aws_region.current.name
+
+  # common tags to be applied to all created resources
+  common_tags = var.tags
 }
 
 
@@ -36,10 +39,7 @@ data "aws_subnets" "subnet_ids" {
 resource "aws_cloudwatch_log_group" "ecs_logs" {
   name = "${var.prefix}-mwaa-ecs-tasks"
 
-  tags = {
-    Environment = var.stage
-    Application = var.prefix
-  }
+  tags = local.common_tags
 }
 
 
@@ -55,6 +55,8 @@ resource "aws_ecs_cluster" "mwaa_cluster" {
     name  = "containerInsights"
     value = "enabled"
   }
+  
+  tags = local.common_tags
 }
 # ECS task section (Cluster + LOGS)  end
 
@@ -76,8 +78,8 @@ module "mwaa" {
   dag_s3_path                       = var.dag_s3_path
   iam_role_permissions_boundary     = var.permissions_boundary_arn
   local_dag_folder                  = var.local_dag_folder == null ? "${path.module}/application/dags/" : var.local_dag_folder
-
   local_requirement_file_path = var.local_requirement_file_path == null ? "${path.module}/application/requirements/requirements.txt" : var.local_requirement_file_path
+  tags = local.common_tags
 }
 
 locals {
@@ -106,6 +108,7 @@ module "ecs_containers" {
   prefix                    = var.prefix
   aws_region                = local.aws_region
   stage                     = var.stage
+  tags = local.common_tags
 }
 
 
@@ -143,12 +146,5 @@ module "lambda_s3_bucket_notification_arn" {
     MWAA_ENV_NAME        = module.mwaa.mwaa_environment_name
   }
 
-  tags = {
-    Module = "MWAA event lambda bucket"
-  }
+  tags = local.common_tags
 }
-
-#moved {
-#  from = module.security_groups.aws_security_group.mwaa
-#  to   = module.mwaa.module.security_groups.aws_security_group.mwaa
-#}

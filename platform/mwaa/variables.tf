@@ -76,3 +76,9 @@ variable "iam_role_permissions_boundary" {}
 variable "local_requirement_file_path" {}
 
 variable "local_dag_folder" {}
+
+variable "tags" {
+  description = "(Optional) A mapping of tags to assign to the resources."
+  type        = map(string)
+  default     = {}
+}

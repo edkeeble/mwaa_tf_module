@@ -7,9 +7,13 @@ resource "aws_ecr_repository" "ecr_image" {
   image_scanning_configuration {
     scan_on_push = false
   }
-  tags = {
-    "name" = "${var.prefix}: ${var.ecr_repo_name}"
-  }
+
+  tags = merge(
+    var.tags,
+    {
+      Notes = "${var.prefix}: ${var.ecr_repo_name}"
+    }
+  )
 }
 
 resource "aws_ecr_lifecycle_policy" "ecr_policy" {

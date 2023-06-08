@@ -9,9 +9,12 @@ resource "aws_iam_role" "mwaa-executor" {
   path                  = var.iam_role_path
   permissions_boundary  = var.iam_role_permissions_boundary
 
-  tags = {
-    Name = "IAM role for MWAA"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Notes = "IAM role for MWAA"
+    }
+  )
 }
 
 resource "aws_iam_role_policy" "mwaa" {
@@ -34,4 +37,5 @@ resource "aws_iam_policy" "lambda_s3_event" {
   path        = "/"
   description = "Update MWAA when requirements updated"
   policy      = data.aws_iam_policy_document.lambda_s3_event_policy.json
+  tags = var.tags
 }

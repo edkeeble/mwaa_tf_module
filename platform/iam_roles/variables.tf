@@ -18,3 +18,9 @@ variable "iam_role_additional_arn_policies" {
   description = "Additional policies to be added to the IAM role"
   type        = map(string)
 }
+
+variable "tags" {
+  description = "(Optional) A mapping of tags to assign to the resources."
+  type        = map(string)
+  default     = {}
+}
