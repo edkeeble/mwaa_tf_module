@@ -16,7 +16,7 @@ resource "aws_security_group" "mwaa" {
   tags = merge(
     var.tags,
     {
-      Notes = "${var.prefix}-mwaa-sg"
+      Name = "${var.prefix}-mwaa-sg"
     }
   )
 }

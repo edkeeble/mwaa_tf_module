@@ -12,7 +12,7 @@ resource "aws_iam_role" "mwaa-executor" {
   tags = merge(
     var.tags,
     {
-      Notes = "IAM role for MWAA"
+      Name = "IAM role for MWAA"
     }
   )
 }

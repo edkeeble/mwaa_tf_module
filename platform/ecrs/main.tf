@@ -11,7 +11,7 @@ resource "aws_ecr_repository" "ecr_image" {
   tags = merge(
     var.tags,
     {
-      Notes = "${var.prefix}: ${var.ecr_repo_name}"
+      Name = "${var.prefix}: ${var.ecr_repo_name}"
     }
   )
 }
