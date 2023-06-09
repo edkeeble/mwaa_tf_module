@@ -13,7 +13,7 @@ def get_headers(mwaa_client, mwaa_env_name):
     }
     return {"headers": headers, "url": url}
 
-def get_va_without_double_quoites(val):
+def get_va_without_double_quotes(val):
     if '{' in val:
         return val
     elif isinstance(val, str):
@@ -29,7 +29,7 @@ def set_mwaa_env_var(mwaa_env_name,mwaa_vars_file_path, aws_region):
     headers_url = get_headers(mwaa_client=mwaa_client, mwaa_env_name=mwaa_env_name)
     for key in json_dictionary:
         print(key, " ", json_dictionary[key])
-        val = f"{key} '{get_va_without_double_quoites(json.dumps(json_dictionary[key]))}'"
+        val = f"{key} '{get_va_without_double_quotes(json.dumps(json_dictionary[key]))}'"
         raw_data = f"variables set {val}"
         mwaa_response = requests.post(
             headers_url['url'],

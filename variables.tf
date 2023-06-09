@@ -3,7 +3,6 @@ variable "prefix" {
 }
 
 
-
 variable "create_security_group" {
   default = false
 }
@@ -87,11 +86,14 @@ variable "mwaa_variables_json_file_id_path" {
 
 
 variable "stage" {
-
   description = "Stage maturity (dev, sit, uat, prod...)"
 }
 
-
+variable "tags" {
+  description = "Tags to be added to resources"
+  type        = map(string)
+  default     = {}
+}
 
 variable "ecs_containers" {
   type = list(object({

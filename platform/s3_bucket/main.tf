@@ -4,9 +4,10 @@ locals {
 
 resource "aws_s3_bucket" "this" {
   bucket = var.bucket_name
-  tags = {
-    Name = "Bucket used for WMAA"
-  }
+
+  tags = merge(var.tags, {
+    "Name" = "Bucket used for WMAA"
+  })
   lifecycle {
     prevent_destroy = true
   }
