@@ -44,7 +44,7 @@ resource "null_resource" "build_ecr_image" {
   triggers = {
     handler_file_path = filemd5(var.handler_file_path)
     docker_file_path  = filemd5(var.docker_file_path)
-    folder_path       = sha1(join("", [for f in fileset(var.ecs_container_folder_path, "*") : filesha1("${var.ecs_container_folder_path}/${f}")]))
+    folder_path       = sha1(join("", [for f in fileset(var.ecs_container_folder_path, "**") : filesha1("${var.ecs_container_folder_path}/${f}")]))
   }
 
   provisioner "local-exec" {
