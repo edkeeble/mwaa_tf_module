@@ -20,7 +20,7 @@ variable "requirements_filename" {
 }
 
 variable "startup_script_filename" {
-  default = null
+  default = "startup.sh"
 }
 
 variable "lambda_s3_bucket_notification_arn" {}
