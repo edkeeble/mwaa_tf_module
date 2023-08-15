@@ -19,6 +19,7 @@ module "s3_bucket" {
   dag_s3_path                       = var.dag_s3_path
   lambda_s3_bucket_notification_arn = var.lambda_s3_bucket_notification_arn
   local_requirement_file_path       = var.local_requirement_file_path
+  local_startup_script_file_path    = var.local_startup_script_file_path
   local_dag_folder                  = var.local_dag_folder
   tags = var.tags
 }
@@ -57,6 +58,7 @@ resource "aws_mwaa_environment" "mwaa" {
   plugins_s3_object_version     = var.plugins_s3_object_version
   plugins_s3_path               = module.s3_bucket.plugins_s3_path
   requirements_s3_path          = module.s3_bucket.requirements_s3_path
+  startup_script_s3_path        = module.s3_bucket.startup_script_s3_path
   schedulers                    = var.schedulers
   execution_role_arn            = module.iam_role.execution_role_arn
   airflow_configuration_options = local.airflow_configuration_options
