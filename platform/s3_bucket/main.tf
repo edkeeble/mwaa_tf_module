@@ -85,6 +85,7 @@ resource "aws_s3_object" "reqs" {
 }
 
 resource "aws_s3_object" "startup_script" {
+  count =  var.local_startup_script_file_path == null ? 0: 1
   bucket = aws_s3_bucket.this.id
   key    = "requirements/${var.startup_script_filename}"
   source = var.local_startup_script_file_path
