@@ -78,7 +78,8 @@ module "mwaa" {
   dag_s3_path                       = var.dag_s3_path
   iam_role_permissions_boundary     = var.permissions_boundary_arn
   local_dag_folder                  = var.local_dag_folder == null ? "${path.module}/application/dags/" : var.local_dag_folder
-  local_requirement_file_path = var.local_requirement_file_path == null ? "${path.module}/application/requirements/requirements.txt" : var.local_requirement_file_path
+  local_requirement_file_path       = var.local_requirement_file_path == null ? "${path.module}/application/requirements/requirements.txt" : var.local_requirement_file_path
+  startup_script_file_path          = var.local_startup_script_file_path == null ? "${path.module}/application/requirements/startup.sh" : var.local_startup_script_file_path
   tags = local.common_tags
 }
 

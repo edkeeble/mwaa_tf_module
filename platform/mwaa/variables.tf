@@ -75,6 +75,8 @@ variable "iam_role_permissions_boundary" {}
 
 variable "local_requirement_file_path" {}
 
+variable "local_startup_script_file_path" {}
+
 variable "local_dag_folder" {}
 
 variable "tags" {

@@ -69,6 +69,12 @@ variable "local_requirement_file_path" {
   default     = null
 }
 
+variable "local_startup_script_file_path" {
+  description = "Path for script that will run at startup of each worker"
+  type        = string
+  default     = null
+}
+
 variable "local_dag_folder" {
   description = "Path to dag folder"
   type        = string

@@ -14,13 +14,19 @@ variable "requirements_s3_path" {
   type        = string
   default     = "requirements"
 }
+
 variable "requirements_filename" {
   default = "requirements.txt"
+}
+
+variable "startup_script_filename" {
+  default = null
 }
 
 variable "lambda_s3_bucket_notification_arn" {}
 # Upload requirements
 variable "local_requirement_file_path" {}
+variable "local_startup_script_file_path" {}
 
 
 variable "local_dag_folder" {}
