@@ -19,5 +19,5 @@ output "requirements_s3_path" {
 }
 
 output "startup_script_s3_path" {
-  value = aws_s3_object.startup_script.key
+  value = one(aws_s3_object.startup_script[*].key)
 }
