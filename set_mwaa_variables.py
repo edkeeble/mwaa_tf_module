@@ -36,8 +36,19 @@ def set_mwaa_env_var(mwaa_env_name,mwaa_vars_file_path, aws_region):
             headers=headers_url['headers'],
             data=raw_data
         )
-        mwaa_std_err_message = base64.b64decode(mwaa_response.json()['stderr']).decode('utf8')
-        mwaa_std_out_message = base64.b64decode(mwaa_response.json()['stdout']).decode('utf8')
+        try:
+            mwaa_std_err_message = base64.b64decode(mwaa_response.json()['stderr']).decode('utf8')
+        except requests.JSONDecodeError as err:
+            print(err)
+            print(mwaa_response.text)
+            mwaa_std_err_message = mwaa_response.text
+        
+        try:
+            mwaa_std_out_message = base64.b64decode(mwaa_response.json()['stdout']).decode('utf8')
+        except requests.JSONDecodeError as err:
+            print(err)
+            print(mwaa_response.text)
+            mwaa_std_out_message = mwaa_response.text
         print(mwaa_response.status_code)
         print(mwaa_std_err_message)
         print(mwaa_std_out_message)
