@@ -2,7 +2,6 @@ import boto3
 import json
 import base64
 import requests
-import time
 from argparse import ArgumentParser
 
 def get_headers(mwaa_client, mwaa_env_name):
@@ -37,6 +36,16 @@ def set_mwaa_env_var(mwaa_env_name,mwaa_vars_file_path, aws_region):
             headers=headers_url['headers'],
             data=raw_data
         )
+        if mwaa_response.status_code == 403:
+            # token has probably expired, get a new one
+            headers_url = get_headers(mwaa_client=mwaa_client, mwaa_env_name=mwaa_env_name)
+            # retry the request
+            mwaa_response = requests.post(
+                headers_url['url'],
+                headers=headers_url['headers'],
+                data=raw_data
+            )
+
         try:
             mwaa_std_err_message = base64.b64decode(mwaa_response.json()['stderr']).decode('utf8')
         except requests.JSONDecodeError as err:
@@ -53,7 +62,6 @@ def set_mwaa_env_var(mwaa_env_name,mwaa_vars_file_path, aws_region):
         print(mwaa_response.status_code)
         print(mwaa_std_err_message)
         print(mwaa_std_out_message)
-        time.sleep(0.2)
 
 if __name__ == "__main__":
     parser = ArgumentParser(
