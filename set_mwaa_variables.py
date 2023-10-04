@@ -2,6 +2,7 @@ import boto3
 import json
 import base64
 import requests
+import time
 from argparse import ArgumentParser
 
 def get_headers(mwaa_client, mwaa_env_name):
@@ -52,6 +53,7 @@ def set_mwaa_env_var(mwaa_env_name,mwaa_vars_file_path, aws_region):
         print(mwaa_response.status_code)
         print(mwaa_std_err_message)
         print(mwaa_std_out_message)
+        time.sleep(0.2)
 
 if __name__ == "__main__":
     parser = ArgumentParser(
