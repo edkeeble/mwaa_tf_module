@@ -79,7 +79,8 @@ module "mwaa" {
   iam_role_permissions_boundary     = var.permissions_boundary_arn
   local_dag_folder                  = var.local_dag_folder == null ? "${path.module}/application/dags/" : var.local_dag_folder
   local_requirement_file_path       = var.local_requirement_file_path == null ? "${path.module}/application/requirements/requirements.txt" : var.local_requirement_file_path
-  local_startup_script_file_path          = var.local_startup_script_file_path
+  local_startup_script_file_path    = var.local_startup_script_file_path
+  airflow_configuration_options     = var.airflow_configuration_options
   tags = local.common_tags
 }
 
